@@ -61,6 +61,13 @@ class AirlineDetailPresenter {
     
     /// Initiates a call to the airline.
     func callAirline() {
-        callManager.processForIncomingCall(sender: "Abhainy", uuid: UUID())
+        guard let airlinePhone = airline.phone else {
+            // Handle case where airline phone is nil
+            print("Airline phone number is nil")
+            return
+        }
+        // callManager.reportIncomingCall(uuid: UUID(), handle: airlinePhone)
+        callManager.startCall(handle: airlinePhone)
     }
+
 }
