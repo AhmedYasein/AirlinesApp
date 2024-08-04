@@ -1,14 +1,9 @@
-//
-//  UiVire+Loader.swift
-//  airlinesApp
-//
-//  Created by Ahmed Yasein on 01/08/2024.
-//
-
 import Foundation
 import UIKit
 
 extension UIView {
+    
+    // setup Activity indicator on the view
     private func setupActivityIndicator() -> UIActivityIndicatorView {
         let activityIndicator = UIActivityIndicatorView()
         activityIndicator.frame = self.bounds
@@ -18,16 +13,17 @@ extension UIView {
         return activityIndicator
     }
     
+    // Shows a loading indicator on the view
     func showLoading() {
         let activityIndicator = setupActivityIndicator()
         activityIndicator.startAnimating()
         self.addSubview(activityIndicator)
     }
     
+    // Hides the loading indicator from the view
     func hideLoading() {
-        if let activityIndicator = viewWithTag(333){
+        if let activityIndicator = viewWithTag(333) {
             activityIndicator.removeFromSuperview()
         }
     }
-    
 }

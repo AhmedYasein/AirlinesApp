@@ -2,10 +2,11 @@ import Foundation
 import CallKit
 
 final class CallManager: NSObject {
-    //MARK: Static properties
+    
+    // Singleton instance
     static let shared = CallManager()
     
-    //MARK: Private properties
+    // CXProvider instance for telephony interactions
     private var provider: CXProvider
     
     private override init() {
@@ -18,15 +19,13 @@ final class CallManager: NSObject {
         self.provider.setDelegate(self, queue: nil)
     }
     
-    func processForIncomingCall(sender: String,
-                                uuid: UUID) {
-        let handler = CXHandle(type: .generic,
-                               value: sender)
-        let callupdate = CXCallUpdate()
-        callupdate.remoteHandle = handler
-        self.provider.reportNewIncomingCall(with: uuid,
-                                            update: callupdate) { error in
-            if let error {
+    // Reports an incoming call
+    func processForIncomingCall(sender: String, uuid: UUID) {
+        let handler = CXHandle(type: .generic, value: sender)
+        let callUpdate = CXCallUpdate()
+        callUpdate.remoteHandle = handler
+        self.provider.reportNewIncomingCall(with: uuid, update: callUpdate) { error in
+            if let error = error {
                 print(error.localizedDescription)
             }
         }
@@ -34,13 +33,16 @@ final class CallManager: NSObject {
 }
 
 extension CallManager: CXProviderDelegate {
+    
+    // Called when the provider is reset
     func providerDidReset(_ provider: CXProvider) { }
     
-    func provider(_ provider: CXProvider,
-                  perform action: CXAnswerCallAction) {
+    // Handles answer call action
+    func provider(_ provider: CXProvider, perform action: CXAnswerCallAction) {
         action.fulfill()
     }
     
+    // Handles end call action
     func provider(_ provider: CXProvider, perform action: CXEndCallAction) {
         action.fail()
     }

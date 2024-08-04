@@ -1,5 +1,8 @@
 import UIKit
 
+// MARK: - Protocol
+
+/// Defines actions that can be performed in the AirlineDetailVC.
 protocol AirlineDetailActionHandler {
     func openWebsite()
     func callAirline()
@@ -7,11 +10,17 @@ protocol AirlineDetailActionHandler {
     func didUpdateAirline(_ airline: Airline)
 }
 
+// MARK: - View Controller
+
+/// Displays detailed information about an airline, including options to visit their website, call them, and mark them as a favorite.
 class AirlineDetailVC: UIViewController, AirlineDetailView {
-    
+
     var presenter: AirlineDetailPresenter?
     var airline: Airline?
     
+    // MARK: - UI Components
+    
+    /// Image view to display the airline's logo.
     private let logoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -28,6 +37,7 @@ class AirlineDetailVC: UIViewController, AirlineDetailView {
         return imageView
     }()
     
+    /// Label to display the name of the airline.
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -38,6 +48,7 @@ class AirlineDetailVC: UIViewController, AirlineDetailView {
         return label
     }()
     
+    /// Button to open the airline's website.
     private let websiteButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -51,14 +62,13 @@ class AirlineDetailVC: UIViewController, AirlineDetailView {
         button.layer.shadowRadius = 4
         button.contentEdgeInsets = UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 16)
         button.addTarget(self, action: #selector(websiteTapped), for: .touchUpInside)
-        
-        // Underline text
-         let title = NSMutableAttributedString(string: "Visit Website")
-         title.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, title.length))
-         button.setAttributedTitle(title, for: .normal)
+        let title = NSMutableAttributedString(string: "Visit Website")
+        title.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSMakeRange(0, title.length))
+        button.setAttributedTitle(title, for: .normal)
         return button
     }()
     
+    /// Button to initiate a call to the airline.
     private let phoneButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -75,6 +85,7 @@ class AirlineDetailVC: UIViewController, AirlineDetailView {
         return button
     }()
     
+    /// Label shown when no phone number is available for the airline.
     private let noPhoneNumberLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -86,21 +97,24 @@ class AirlineDetailVC: UIViewController, AirlineDetailView {
         return label
     }()
     
+    /// Button to mark the airline as a favorite or remove it from favorites.
     private let favoriteButton: UIButton = {
-            let button = UIButton(type: .system)
-            button.translatesAutoresizingMaskIntoConstraints = false
-            button.setTitleColor(.red, for: .normal)
-            button.titleLabel?.font = UIFont.systemFont(ofSize: 18)
-            button.layer.cornerRadius = 8
-            button.backgroundColor = UIColor.systemGray5
-            button.layer.shadowColor = UIColor.black.cgColor
-            button.layer.shadowOffset = CGSize(width: 0, height: 2)
-            button.layer.shadowOpacity = 0.1
-            button.layer.shadowRadius = 4
-            button.contentEdgeInsets = UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 16)
-            button.addTarget(self, action: #selector(toggleFavorite), for: .touchUpInside)
-            return button
-        }()
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitleColor(.red, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 18)
+        button.layer.cornerRadius = 8
+        button.backgroundColor = UIColor.systemGray5
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowOffset = CGSize(width: 0, height: 2)
+        button.layer.shadowOpacity = 0.1
+        button.layer.shadowRadius = 4
+        button.contentEdgeInsets = UIEdgeInsets(top: 12, left: 16, bottom: 12, right: 16)
+        button.addTarget(self, action: #selector(toggleFavorite), for: .touchUpInside)
+        return button
+    }()
+    
+    // MARK: - View Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -111,6 +125,9 @@ class AirlineDetailVC: UIViewController, AirlineDetailView {
         setupNavigationBar()
     }
     
+    // MARK: - Setup Methods
+    
+    /// Adds UI components to the view hierarchy.
     private func setupViews() {
         view.addSubview(logoImageView)
         view.addSubview(nameLabel)
@@ -120,6 +137,7 @@ class AirlineDetailVC: UIViewController, AirlineDetailView {
         view.addSubview(favoriteButton)
     }
     
+    /// Configures Auto Layout constraints for UI components.
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
@@ -144,10 +162,11 @@ class AirlineDetailVC: UIViewController, AirlineDetailView {
             noPhoneNumberLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
             
             favoriteButton.topAnchor.constraint(equalTo: phoneButton.isHidden ? noPhoneNumberLabel.bottomAnchor : phoneButton.bottomAnchor, constant: 20),
-                        favoriteButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            favoriteButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
         ])
     }
     
+    /// Configures the view with data from the `airline` property.
     private func configureView() {
         guard let airline = airline else { return }
         logoImageView.loadImage(from: "https://www.kayak.com/" + (airline.logoURL ?? "No image") )
@@ -164,17 +183,22 @@ class AirlineDetailVC: UIViewController, AirlineDetailView {
         }
 
         let favoriteImage = airline.isFavorite ? "heart.fill" : "heart"
-               favoriteButton.setImage(UIImage(systemName: favoriteImage), for: .normal)
+        favoriteButton.setImage(UIImage(systemName: favoriteImage), for: .normal)
     }
     
+    // MARK: - Actions
+    
+    /// Handles the tap event for the website button.
     @objc private func websiteTapped() {
         presenter?.openWebsite()
     }
     
+    /// Handles the tap event for the call button.
     @objc private func callAirline() {
         presenter?.callAirline()
     }
     
+    /// Handles the tap event for the favorite button.
     @objc private func toggleFavorite() {
         presenter?.toggleFavorite()
         if let updatedAirline = airline {
@@ -182,6 +206,7 @@ class AirlineDetailVC: UIViewController, AirlineDetailView {
         }
     }
     
+    /// Configures the navigation bar with the title and appearance.
     private func setupNavigationBar() {
         navigationItem.title = "Airline Details"
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -189,6 +214,7 @@ class AirlineDetailVC: UIViewController, AirlineDetailView {
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.systemBlue]
     }
 
+    /// Updates the appearance of the favorite button based on the `isFavorite` status.
     func updateFavoriteButton(isFavorite: Bool) {
         let favoriteImage = isFavorite ? "heart.fill" : "heart"
         favoriteButton.setImage(UIImage(systemName: favoriteImage), for: .normal)

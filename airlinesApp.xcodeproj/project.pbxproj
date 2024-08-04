@@ -120,20 +120,6 @@
 			path = Presenter;
 			sourceTree = "<group>";
 		};
-		730DDF642C5E743C00C83129 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Protocols;
-			sourceTree = "<group>";
-		};
-		730DDF672C5E74C800C83129 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Protocols;
-			sourceTree = "<group>";
-		};
 		730DDF6C2C5E7A2B00C83129 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
@@ -142,10 +128,17 @@
 			path = Managers;
 			sourceTree = "<group>";
 		};
+		730DDF6F2C5F733200C83129 /* AirlineModel */ = {
+			isa = PBXGroup;
+			children = (
+				73F5EEDE2C5BF9D800C657CF /* AirelineModel.swift */,
+			);
+			path = AirlineModel;
+			sourceTree = "<group>";
+		};
 		738F69152C5C4A0F0082432C /* ArlineDetails */ = {
 			isa = PBXGroup;
 			children = (
-				730DDF642C5E743C00C83129 /* Protocols */,
 				730DDF5D2C5E521C00C83129 /* Presenter */,
 				738F69162C5C4A660082432C /* View */,
 			);
@@ -284,7 +277,6 @@
 		73F5EED92C5BF94200C657CF /* Airlines */ = {
 			isa = PBXGroup;
 			children = (
-				730DDF672C5E74C800C83129 /* Protocols */,
 				73F5EEDC2C5BF9A000C657CF /* Presenter */,
 				73F5EEDB2C5BF99800C657CF /* View */,
 				73F5EEDA2C5BF99200C657CF /* Model */,
@@ -295,8 +287,8 @@
 		73F5EEDA2C5BF99200C657CF /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				730DDF6F2C5F733200C83129 /* AirlineModel */,
 				73D1A96D2C5C123E00E04451 /* Interactor */,
-				73F5EEDE2C5BF9D800C657CF /* AirelineModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
