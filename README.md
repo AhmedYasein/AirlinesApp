@@ -16,7 +16,6 @@ The Airlines App is a mobile application designed to display a list of airlines,
 - [Getting Started](#getting-started)
 - [Dependencies](#dependencies)
 - [Contributing](#contributing)
-- [License](#license)
 
 ## Overview
 
