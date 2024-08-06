@@ -72,9 +72,16 @@ class AirlinesPresenter {
 
     /// Toggles between displaying all airlines and only favorite ones.
     func toggleAirlineList(isFavorites: Bool) {
-        allAirlines = Array(realm.objects(Airline.self).filter("isFavorite == \(isFavorites)"))
+        if isFavorites {
+            // Show only favorite airlines
+            allAirlines = Array(realm.objects(Airline.self).filter("isFavorite == true"))
+        } else {
+            // Show all airlines, regardless of favorite status
+            allAirlines = Array(realm.objects(Airline.self))
+        }
         view?.fetchingDataSuccess() // Notify view of data update
     }
+
 
     /// Marks an airline as favorite or not, based on its current state.
     func markAsFavorite(at index: Int) {
