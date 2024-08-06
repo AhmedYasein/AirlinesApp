@@ -16,7 +16,7 @@ protocol AirlineDetailView: AnyObject {
 
 // MARK: - AirlineDetailPresenter
 /// Manages the business logic for the airline detail view.
-class AirlineDetailPresenter {
+class AirlineDetailPresenter: AirlineDetailActionHandler {
     
     // MARK: - Properties
     private let callManager = CallManager.shared // Manages call actions

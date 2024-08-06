@@ -7,7 +7,6 @@ protocol AirlineDetailActionHandler {
     func openWebsite()
     func callAirline()
     func toggleFavorite()
-    func didUpdateAirline(_ airline: Airline)
 }
 
 // MARK: - View Controller
@@ -15,7 +14,7 @@ protocol AirlineDetailActionHandler {
 /// Displays detailed information about an airline, including options to visit their website, call them, and mark them as a favorite.
 class AirlineDetailVC: UIViewController, AirlineDetailView {
 
-    var presenter: AirlineDetailPresenter?
+    var presenter: AirlineDetailActionHandler?
     var airline: Airline?
     
     // MARK: - UI Components
